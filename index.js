@@ -7,5 +7,5 @@ const router = require('./routers')
 app.use(express.json({strict:false}));
 app.use('/api/v1', router)
 app.listen(PORT, () =>{
-    console.log(`Server is running at PORT ${PORT}`)
+    console.log(`Server is runing a PORT ${PORT}`)
 })
