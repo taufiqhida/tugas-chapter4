@@ -1,0 +1,51 @@
+localhost:5000/api/v1/users (GET)
+localhost:5000/api/v1/users/:userId(GET)
+localhost:5000/api/v1/users/:userId(DELETE) 
+localhost:5000/api/v1/users (POST)
+{
+  "name" : "Reza Hans Latif",
+  "email" : "rezahans@gmail.com",
+  "password" : "123456",
+  "identity_type" : "Platinum",
+  "identity_number": "1010011",
+  "address": "Tangerang, Banten"
+}
+
+localhost:5000/api/v1/users/3/update-profile (PUT)
+{
+  "name": "Sans JR",
+  "email": "sansjr@gmail.com"
+}
+
+{
+  "identity_type" : "KTP",
+  "identity_number": "367113012302009",
+  "address": "Tangerang, Banten"
+}
+
+localhost:5000/api/v1/users/3/update-password (PUT)
+{
+  "oldPassword": "12345678",
+  "newPassword": "carrol123"
+}
+
+localhost:5000/api/v1/accounts (POST)
+{
+  "userId": 4,
+  "bank_name": "Bank BCA",
+  "bank_account_number": "1011024019",
+  "balance": "1500000"
+}
+Localhost:5000/api/v1/accounts (PUT)
+{
+}
+localhost:5000/api/v1/accounts (GET)
+localhost:5000/api/v1/accounts/1 (GET)
+localhost:5000/api/v1/accounts/3 (DELETE)
+
+localhost:5000/api/v1/transactions (POST)
+{
+  "source_account_id": 1,
+  "destination_account_id": 2,
+  "amount": 150000
+}
