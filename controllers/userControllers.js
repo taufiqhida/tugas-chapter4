@@ -32,8 +32,32 @@ module.exports = {
     },
     showAllUsers: async (req, res)=>{
         try {
-            const users = await prisma.users.findMany();
-            res.status(200).json(users);
+            const user = await prisma.users.findMany();
+            res.status(200).json(user);
+        }catch (error){
+            return res.status(500).json({
+                error: error.message
+            });
+        }
+    },
+    showUser: async (req, res)=>{
+        try{
+            const userById = req.params.id;
+            const user = await prisma.users.findUnique({
+                where: {
+                    id : parseInt(userById),
+                },
+                select:{
+                    name: true,
+                    email: true,
+                    profile: true,
+                },
+            })
+                    if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+            return res.json(user)
         }catch (error){
             return res.status(500).json({
                 error: error.message

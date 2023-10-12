@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const userController = require('./controllers/userControllers')
-const profileController=require('./controllers/profileControllers')
 const bank_accountsController=require('./controllers/bank_accountsController')
 
 router.get('/', (req, res)=>{
@@ -11,12 +10,15 @@ router.get('/', (req, res)=>{
 })
 
 router.post('/users', userController.registerUser)
-router.get('/showUsers', userController.showAllUsers)
+router.get('/users', userController.showAllUsers)
+router.get('/users/:id', userController.showUser)
 
-router.post('/profiles', profileController.registerProfile)
-router.get('/showProfiles', profileController.showAllProfiles)
+router.post('/accounts', bank_accountsController.registerBanks)
+router.get('/accounts', bank_accountsController.showAllBank)
+router.get('/accounts/:id', bank_accountsController.showBank)
 
-router.post('/account', bank_accountsController.registerBanks)
-router.get('/Showaccounts', bank_accountsController.showAllBank)
+router.post('/transactions', bank_accountsController.registerBanks)
+router.get('/transactions', bank_accountsController.showAllBank)
+router.get('/transactions/:id', bank_accountsController.showAllBank)
 
 module.exports=router;
