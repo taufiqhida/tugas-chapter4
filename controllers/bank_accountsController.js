@@ -38,7 +38,7 @@ module.exports = {
             });
         }
     },
-    showAllBank: async (req, res) =>{
+    showAllBanks: async (req, res) =>{
         try {
             const banks = await prisma.bank_accounts.findMany({
                 select:{
@@ -86,14 +86,14 @@ module.exports = {
                 id: bank.id,
                user_id: bank.user_id,
                bank_name: bank.bank_name,
-               bank_account_number: bank_bank_account_number,
+               bank_account_number: bank.bank_account_number,
                ballance: Number(bank.ballance),
                 user:{
                     name: bank.user.name,
                     email: bank.user.email,
                 }
             }
-            res.status(200).json(data)
+            return res.status(200).json(data)
         }catch (error){
             return res.status(500).json({
                 error: error.message
