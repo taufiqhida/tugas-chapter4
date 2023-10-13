@@ -12,10 +12,13 @@ router.get('/', (req, res)=>{
 router.post('/users', userController.registerUser)
 router.get('/users', userController.showAllUsers)
 router.get('/users/:id', userController.showUser)
+//Paham pas user tetapi pas account, transaksi kurang paham
+
 
 router.post('/accounts', bank_accountsController.registerBanks)
 router.get('/accounts', bank_accountsController.showAllBank)
 router.get('/accounts/:id', bank_accountsController.showBank)
+//Pas a
 
 router.post('/transactions', bank_accountsController.registerBanks)
 router.get('/transactions', bank_accountsController.showAllBank)

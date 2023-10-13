@@ -6,18 +6,32 @@ module.exports = {
     registerBanks: async (req, res) =>{
         const userId = parseInt(req.body.user_id)
         try{
-            const bank = await prisma.bank_accounts.create({
-                data: {
-                    bank_name: req.body.bank_name,
-                    bank_account_number: req.body.bank_account_number,
-                    ballance: req.body.ballance,
-                    user_id: req.body.user_id
+            const user = await prisma.users.findUnique({
+                where: {
+                    id: userId
 
-                }
+                },
             });
+                    if (!user) {
+          return res.status(404).json({ error: 'User Not Found' });
+        }
+                    const addBank = await  prisma.bank_accounts.create({
+                        data: {
+                            bank_name: req.body.bank_name,
+                            bank_account_number: req.body.bank_account_number,
+                            ballance: BigInt(req.body.ballance),
+                            user: {connect: {id:userId}},
+                        },
+                    });
+
             return res.json({
-                data: bank
-            })
+                data: {
+                    user_id: addBank.user_id,
+                    bank_name: addBank.bank_name,
+                    bank_account_number: addBank.bank_account_number,
+                    ballance: Number(addBank.ballance),
+                },
+            });
         }catch (error) {
             return res.status(500).json({
                 error: error.message
@@ -26,8 +40,21 @@ module.exports = {
     },
     showAllBank: async (req, res) =>{
         try {
-            const banks = await prisma.bank_accounts.findMany();
-            res.status(200).json(banks);
+            const banks = await prisma.bank_accounts.findMany({
+                select:{
+                    id: true,
+                    user_id: true,
+                    bank_name: true,
+                    bank_account_number: true,
+                    ballance: true
+                }
+            });
+            const formatBank = banks.map(banks =>({
+                ...banks,
+                ballance: Number(banks.ballance),
+                user_id: Number(banks.user_id)
+            }));
+            res.status(200).json(formatBank);
         }catch (error){
             return res.status(500).json({
                 error: error.message
@@ -41,9 +68,32 @@ module.exports = {
                 where: {
                     id: parseInt(bankByid),
                 },
-                select
+                include : {
+                    user : {
+                        select : {
+                            name : true,
+                            email : true
+                        }
+                    }
+                },
             });
-            res.stat(200).json(bank)
+            if(!bank){
+                return res.status(404).json({
+                error: "Akun nggak ada"
+            })
+            }
+            const data = {
+                id: bank.id,
+               user_id: bank.user_id,
+               bank_name: bank.bank_name,
+               bank_account_number: bank_bank_account_number,
+               ballance: Number(bank.ballance),
+                user:{
+                    name: bank.user.name,
+                    email: bank.user.email,
+                }
+            }
+            res.status(200).json(data)
         }catch (error){
             return res.status(500).json({
                 error: error.message
