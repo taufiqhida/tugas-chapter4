@@ -1,14 +1,17 @@
+npm i bcrypt jsonwebtoken
+
+
 localhost:5000/api/v1/users (GET)
 localhost:5000/api/v1/users/:userId(GET)
 localhost:5000/api/v1/users/:userId(DELETE) 
 localhost:5000/api/v1/users (POST)
 {
-  "name" : "Reza Hans Latif",
-  "email" : "rezahans@gmail.com",
-  "password" : "123456",
-  "identity_type" : "Platinum",
+  "name" : "Septya Handayani",
+  "email" : "septya2003@gmail.com",
+  "password" : "190903",
+  "identity_type" : "SIM",
   "identity_number": "1010011",
-  "address": "Tangerang, Banten"
+  "address": "Banyumas, Jawa Tengah"
 }
 
 localhost:5000/api/v1/users/3/update-profile (PUT)
