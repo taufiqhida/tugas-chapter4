@@ -132,7 +132,24 @@
                         "type": "string"
                       },
                       "email": {
-                        "type"
+                        "type": "string"
+                      },
+                      "profile":{
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "identity_type": {
+                            "type": "string"
+                          },
+                          "address": {
+                            "type": "string"
+                          },
+                          "user_id": {
+                            "type": "string"
+                          }
+                        }
                       }
                     }
                   }
