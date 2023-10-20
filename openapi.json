@@ -82,7 +82,65 @@
               }
             }
           }
+      },
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "resposes": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type" : "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type" : "number"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
-    }
+    },
+      "/api/v1/users/id": {
+        "get": {
+          "tags" : [
+            "user"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "achema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+  }
   }
