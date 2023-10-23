@@ -17,7 +17,6 @@ router.get('/users', userController.showAllUsers)
 // router.get('/users/:id', userController.showUser)
 router.get('/auth/authenticate', checkToken, userController.getUser)
 
-
 router.post('/accounts', bank_accountsController.registerBanks)
 router.get('/accounts', bank_accountsController.showAllBanks)
 router.get('/accounts/:id', bank_accountsController.showBank)

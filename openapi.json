@@ -10,20 +10,28 @@
     },
     "servers": [
       {
-        "url": "https://localhost:5000/api/v3"
+        "url": "https://localhost:5000/api/v1"
       }
     ],
     "tags": [
       {
-        "name": "user",
+        "name": "User",
         "description": "User API"
+      },
+      {
+        "name": "Account",
+        "description": "Account API"
+      },
+      {
+        "name": "Transaction",
+        "description": "Transaction API"
       }
     ],
     "paths": {
-      "/api/v1/users": {
+      "/users": {
         "post": {
           "tags": [
-            "user"
+            "User"
           ],
           "requestBody": {
             "content": {
@@ -85,7 +93,7 @@
       },
       "get": {
         "tags": [
-          "user"
+          "User"
         ],
         "resposes": {
           "200": {
@@ -99,7 +107,7 @@
                       "type": "number"
                     },
                     "name": {
-                      "type" : "number"
+                      "type" : "string"
                     },
                     "email": {
                       "type": "string"
@@ -115,10 +123,10 @@
         }
       }
     },
-      "/api/v1/users/id": {
+      "/users/:id": {
         "get": {
           "tags" : [
-            "user"
+            "User"
           ],
           "responses": {
             "200": {
@@ -143,6 +151,9 @@
                           "identity_type": {
                             "type": "string"
                           },
+                          "identity_number": {
+                            "type": "number"
+                          },
                           "address": {
                             "type": "string"
                           },
@@ -158,6 +169,230 @@
             }
           }
         }
+      },
+      "/accounts":{
+        "post": {
+          "tags": [
+            "Account"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user_id":{
+                      "type": "number"
+                    },
+                    "bank_name": {
+                      "type": "string"
+                    },
+                    "bank_account_number": {
+                      "type": "number"
+                    },
+                      "balance":{
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id":{
+                          "type": "number"
+                        },
+                        "bank_name": {
+                          "type": "string"
+                        },
+                        "bank_account_number": {
+                          "type": "number"
+                        },
+                        "balance": {
+                          "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get":{
+          "tags": [
+            "Account"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "prpperties": {
+                      "userr_id": {
+                        "type": "number"
+                      },
+                      "bank_name" : {
+                        "type": "string"
+                      },
+                      "bank_account_number": {
+                        "type": "number"
+                      },
+                      "balance": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/accounts/:id": {
+    "get": {
+      "tags": [
+        "Account"
+      ],
+      "reponses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "objext",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "identity_number" : {
+                    "type": "number"
+                  },
+                  "identity_type" : {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+
+          }
+        }
+      }
+    }
+  },
+      "/transactions": {
+        "post": {
+          "tags": [
+            "Transaction"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "source_account_id" : {
+                      "type": "number"
+                    },
+                    "destination_account_id": {
+                      "type": "number"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": [
+            "Transaction"
+          ],
+          "responses": {
+            "200": {
+              "description": "Successs",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "transaction_id": {
+                            "type": "number"
+                          },
+                          "source_account_id": {
+                            "type": "number"
+                          },
+                          "source_account_name": {
+                            "type": "string"
+                          },
+                          "amount": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/transactions/:id": {
+        "post": {
+          "tags": [
+            "Transaction"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "transaction_id": {
+                        "type": "string"
+                      },
+                      "source_account_id": {
+                        "type": "number"
+                      },
+                      "source_account_name": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
   }
+
   }
