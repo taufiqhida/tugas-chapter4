@@ -1,12 +1,8 @@
 const {PrismaClient} = require('@prisma/client')
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
-
-const cryptPassword = async (password) =>{
-    const salt = await bcrypt.genSalt(5);
-    return bcrypt.hash(password, salt)
-}
-
+const jwt = require('jsonwebtoken');
+const utils = require('../utils')
+const secret_key = process.env.JWT_KEY || "no_secret"
 const prisma = new PrismaClient();
 
 module.exports = {
@@ -16,7 +12,7 @@ module.exports = {
             data:{
                 name: req.body.name,
                 email: req.body.email,
-                password: await cryptPassword(req.body.password),
+                password: await utils.cryptPassword(req.body.password),
                 profile: {
                     create:{
                         identity_number: req.body.identity_number,
@@ -24,12 +20,15 @@ module.exports = {
                         address: req.body.address,
                     }
                 }
+            },
+            include:{
+                profile: true
             }
         });
 
 
-        return res.json({
-            data: user
+        return res.status(201).json({
+            data
         })
         }catch (error){
             return res.status(500).json({
@@ -39,6 +38,7 @@ module.exports = {
     },
 
     loginUser: async (req, res) =>{
+    try{
         const findUser = await prisma.users.findFirst({
             where:{
                 email: req.body.email
@@ -59,8 +59,63 @@ module.exports = {
                 }
             })
         }
+        return res.status(403).json({
+            error: "Invalid"
+        })
+    }catch (error) {
+        return res.status(500).json({
+                error
+            })
+        }
     },
+    profile: async (req, res)=>{
+        try{
+            const user = await users.findUnique({
+                include:{
+                    profile: true
+                },
+                where:{
+                    id: res.user.id
+                }
+            })
 
+            return res.status(200).json({
+                data: user
+            })
+        }catch (error){
+            return res.status(500).json({
+                error
+            })
+        }
+    },
+    changePassword:async (req, res)=>{
+        try {
+            const user = await users.findUnique({
+                where: {
+                    id: res.user.id
+                }
+            })
+
+            if(bcrypt.compareSync(req.body.old_password, user.password)){
+                const data = await users.update({
+                    where:{
+                        id: res.user.id
+                    },
+                    data:{
+                        password: await utils.cryptPassword(req.body.password)
+                    }
+                })
+            }
+
+            return res.status(200).json({
+                data
+            })
+        }catch (error){
+            return res.status(500).json({
+                error: error.message
+            });
+        }
+    },
     showAllUsers: async (req, res)=>{
         try {
             const user = await prisma.users.findMany();

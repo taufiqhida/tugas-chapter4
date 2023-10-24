@@ -4,15 +4,17 @@ const userController = require('./controllers/userControllers')
 const bank_accountsController=require('./controllers/bank_accountsController')
 const transactionsController=require('./controllers/transactionsController')
 const checkToken = require('./middleware/checkToken')
+const validate = require("./middleware/validate")
+const schema = require("./validatorSchemas/authValidatorSchema")
 
 router.get('/', (req, res)=>{
     return res.json({
-        message: "hello word"
+        message: "hello binar"
     })
 })
 
-router.post('/auth/register/users', userController.registerUser)
-router.post('/auth/login/users', userController.loginUser)
+router.post('/auth/register',validate(schema.registerValidator),userController.registerUser)
+router.post('/auth/login/', userController.loginUser)
 router.get('/users', userController.showAllUsers)
 // router.get('/users/:id', userController.showUser)
 router.get('/auth/authenticate', checkToken, userController.getUser)
